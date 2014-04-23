@@ -3,6 +3,7 @@ package com.test.app;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import com.test.app.filemanager.FileManager;
@@ -34,7 +35,7 @@ public class App  {
     			System.out.println("Could not get all info for " + lines.get(i));
     		} else {
     			try {
-					Person p = new Person(info[0], info[1], new SimpleDateFormat("dd/MM/yy").parse(info[2]));
+					Person p = new Person(info[0].trim(), info[1].trim(), new SimpleDateFormat("dd/MM/yy").parse(info[2].trim()));
 					persons[i] = p;
     			} catch (ParseException e) {
 					System.out.println("Error converting " + info[2] + " to a date");
@@ -43,9 +44,55 @@ public class App  {
     		}
     	}
     	
+    	//answer first question
+    	question1(persons);
+    	
+    	//answer second question
+    	question2(persons);
+    	
+    }
+    
+    private static void question1(Person[] persons) {
+    	System.out.println("How many males are in the address book?");
+    	
+    	int count=0;
+    	
     	for (Person p : persons) {
-    		System.out.println("Name : " + p.getName());
+    		if (p!=null && p.getGender().toLowerCase().equals("male")) {
+    			count++;
+    		}
     	}
+    	
+    	System.out.println("There are " + count + " males in the address book.");
+    }
+    
+    private static void question2(Person[] persons) {
+    	
+    	System.out.println("\nWho is the oldest?");
+    	
+    	Person oldest = null;
+    	int oldestYear = 2014;
+    	
+    	Calendar cal = Calendar.getInstance();
+    	
+    	for(Person p : persons) {
+    		if (p!=null) {
+	    		cal.setTime(p.getDob());
+	    		int year = cal.get(Calendar.YEAR);
+	    		
+	    		if (year < oldestYear) {
+	    			oldestYear = year;
+	    			oldest = p;
+	    		}
+    		}
+    	}
+    	
+    	if (oldest!=null) {
+    		System.out.println(oldest.getName() + " is the oldest person.");
+    	} else {
+    		System.out.println("No one could be found");
+    	}
+    	
     }
     
 }
