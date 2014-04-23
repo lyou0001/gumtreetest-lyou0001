@@ -21,7 +21,7 @@ public class FileManager {
 		return f;
 	}
 	
-	public static void readFile(final File f) {
+	public static List<String> readFile(final File f) {
 		List<String> lines = new ArrayList<String>();
 		
 		BufferedReader br = null;
@@ -49,6 +49,8 @@ public class FileManager {
 				}
 			}
 		}
+		
+		return lines;
 				
 	}
 	
